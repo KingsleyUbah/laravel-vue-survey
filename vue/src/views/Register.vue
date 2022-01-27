@@ -62,7 +62,7 @@ const user = {
 }
 
 function register(ev) {
-  ev.preventdefault();
+  ev.preventDefault();
 
   store
   .dispatch('register', user)
