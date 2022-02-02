@@ -7,7 +7,7 @@
                 </h1>
             </div>
         </template>
-
+        
         <form action="" @submit.prevent="saveSurvey">
             <div class="shadow sm:rounded md sm:overflow-hidden">
                 <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -102,7 +102,123 @@
                                 rounded-md                                
                             "
                         />
-                    </div>                    
+                    </div>
+
+                    <div>
+                        <label for="about" class="block text-sm text-left font-bold text-gray-700">
+                            Description
+                        </label>
+                        <div class="mt-1">
+                            <textarea 
+                                name="description" 
+                                id="description" 
+                                v-model="model.description"
+                                rows="3"
+                                placeholder="Describe your survey"
+                                autocomplete="survey_description"
+                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                            >
+                            </textarea>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <label for="expire_date" class="block text-sm text-left font-bold text-gray-700">
+                            Expire date
+                        </label>
+
+                        <input 
+                            type="date" 
+                            name="expire_date"
+                            id="expire_date"
+                            v-model="model.expire_date"
+                            class="
+                                mt-1
+                                block
+                                w-full
+                                shadow-sm
+                                sm:text-sm
+                                border-gray-300
+                                rounded-md
+                                focus:ring-indigp-500 focus:border-indigo-500
+                            "
+                        >
+                    </div>    
+
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input                                 
+                                id="status"
+                                type="checkbox"
+                                v-model="model.status"
+                                class="
+                                    focus:ring-indigo-500
+                                    h-4
+                                    w-4
+                                    text-indigo-600
+                                    rounded
+                                    border-gray-300
+                                "
+                            />
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="status" class="font-bold text-gray-700">
+                                Active
+                            </label>
+                        </div>
+                    </div>                
+                </div>
+
+                <div class="px-4 py-8 bg-white space-y-6 sm:p-6">
+                    <h3 class="text-2xl font-semibold flex items-center justify-between">
+                        Questions
+
+                        <button
+                            type="button"
+                            @clicks="addQuestion()"
+                            class="
+                                flex
+                                items-center
+                                py-1
+                                px-4
+                                text-sm
+                                rounded-sm
+                                text-white
+                                bg-gray-600
+                                hover:bg-gray-700
+                            "
+                        >
+
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+
+                            Add a Question
+                        </button>
+                    </h3>
+
+                    <div v-if="!model.questions.length" class="text-center text-gray-600">
+                        You do not have any questions created.
+                    </div>
+                    
+                    <div v-for="(question, index) in model.questions" :key="question.id">
+                        <QuestionEditor
+                            :question="question"
+                            :index="index"
+                            @change="questionChange"
+                            @addQuestion="addQuestion"
+                            @deleteQuestion="deleteQuestion"
+                        >
+                        </QuestionEditor>
+                    </div>
+                    
+                </div>
+
+                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Save
+                    </button>
                 </div>
             </div>
         </form>
@@ -111,6 +227,7 @@
 
 <script setup>
 import PageComponent from '../components/PageComponent.vue'
+import QuestionEditor from '../components/editor/QuestionEditor.vue'
 import store from "../store"
 import { ref } from "vue"
 import { useRoute } from "vue-router"
