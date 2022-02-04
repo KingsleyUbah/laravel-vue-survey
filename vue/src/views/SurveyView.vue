@@ -18,8 +18,8 @@
 
                         <div class="mt-1 flex items-center">
                             <img 
-                                v-if="model.image" 
-                                :src="model.image" 
+                                v-if="model.image_url" 
+                                :src="model.image_url" 
                                 :alt="model.title"
                                 class="w-64 h-48 object-cover"
                             >
@@ -65,6 +65,7 @@
                             >
                                 <input 
                                     type="file"
+                                    @change="onImageChoose"
                                     class="
                                         absolute
                                         left-0
@@ -230,23 +231,36 @@ import PageComponent from '../components/PageComponent.vue'
 import QuestionEditor from '../components/editor/QuestionEditor.vue'
 import { v4 as uuidv4 } from "uuid"
 import store from "../store"
-import { ref } from "vue"
-import { useRoute } from "vue-router"
+import { ref, watch } from "vue"
+import { useRoute, useRouter } from "vue-router"
 
 // create empty survey 
 let model = ref({
     title: "",
     status: false,
+    slug: "",
     description: null,
-    image: null,
+    image_url: null,
     expire_date: null,
     questions: [], 
 });
 
 const route = useRoute();
 
+const router = useRouter();
+
+watch(
+    () => store.state.currentSurvey.data,
+    (newVal, oldVal) => {
+        model.value = {
+            ...JSON.parse(JSON.stringify(newVal)),
+            status: newVal.status !== "draft", 
+        }
+    }
+)
+
 if(route.params.id) {
-    model.value = store.state.surveys.find((s) => s.id === parseInt(route.params.id))
+    store.dispatch('getSurvey', route.params.id);
 }
 
 function addQuestion(index) {
@@ -273,6 +287,30 @@ function questionChange(question) {
 
         return q;
     })
+}
+
+function saveSurvey() {
+    store.dispatch("saveSurvey", model.value)
+        .then(({ data }) => {
+            router.push({
+                name: "SurveyView",
+                params: { id: data.data.id },
+            });
+        })
+}
+
+function onImageChoose(ev) {
+    const file = ev.target.files[0];
+
+    const reader = new FileReader();
+    
+    reader.onload = () => {
+        model.value.image = reader.result;
+
+        model.value.image_url = reader.result;
+    }
+
+    reader.readAsDataURL(file);
 }
 
 </script>
