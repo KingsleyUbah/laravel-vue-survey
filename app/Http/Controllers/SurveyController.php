@@ -9,6 +9,9 @@ use App\Http\Resources\SurveyResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
+use App\Models\SurveyQuestion;
+use Illuminate\Support\Facades\Validator;
 
 
 class SurveyController extends Controller
@@ -20,9 +23,9 @@ class SurveyController extends Controller
      */
     public function index(Request $request)
     {
-        $user = $request->user();
+        $user = $request->user();        
 
-        return SurveyResource::collection(Survey::where('user_id', $user->id)->paginate());
+        return SurveyResource::collection(Survey::where('user_id', $user->id)->paginate(5));
     }
 
     /**
@@ -41,6 +44,12 @@ class SurveyController extends Controller
         }
 
         $survey = Survey::create($data);
+
+        foreach ($data['questions'] as $question) 
+        {
+            $question['survey_id'] = $survey->id;            
+            $this->createQuestion($question);
+        }
 
         return new SurveyResource($survey);
 
@@ -97,13 +106,18 @@ class SurveyController extends Controller
      */
     public function destroy(Survey $survey, Request $request)
     {
-        $user -> $request->user();
+        $user = $request->user();
 
         if($user->id !== $survey->user_id) {
             return abort(403, 'Unauthorized action');   
         }
 
         $survey->delete();
+
+        if($survey->image) {
+            $absolutePath = public_path($survey->image);
+            File::delete($absolutePath);
+        }
 
         return response('', 204);
     }
@@ -143,5 +157,28 @@ class SurveyController extends Controller
         file_put_contents($relativePath, $image);
 
         return $relativePath;
+    }
+
+    private function createQuestion($data) 
+    {
+        if(is_array($data['data'])) {
+            $data['data'] = json_encode($data['data']);
+        }
+
+        $validator = Validator::make($data, [
+            'question' => 'required|string',
+            'type' => ['required', Rule::in([
+                Survey::TYPE_TEXT,
+                Survey::TYPE_TEXTAREA,
+                Survey::TYPE_SELECT,
+                Survey::TYPE_RADIO,
+                Survey::TYPE_CHECKBOX,
+            ])],
+            'description' => 'nullable|string',
+            'data' => 'present',
+            'survey_id' => 'exists:App\Models\Survey,id'
+        ]);
+
+        return SurveyQuestion::create($validator->validated());
     }
 }
