@@ -31,7 +31,7 @@
             ...Loading
         </div>
         
-        <form v-else action="" @submit.prevent="saveSurvey">
+        <form v-else action="" @submit.prevent="saveSurvey" class="animate-fade-in-down">
             <div class="shadow sm:rounded md sm:overflow-hidden">
                 <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                     <div>
@@ -159,7 +159,7 @@
                                 sm:text-sm
                                 border-gray-300
                                 rounded-md
-                                focus:ring-indigp-500 focus:border-indigo-500
+                                focus:ring-indigo-500 focus:border-indigo-500
                             "
                         >
                     </div>    

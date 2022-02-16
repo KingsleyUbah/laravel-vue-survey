@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\SurveyQuestion;
 
 class Survey extends Model
 {
@@ -16,4 +17,9 @@ class Survey extends Model
     const TYPE_CHECKBOX = 'checkbox';
 
     protected $fillable = ['user_id', 'title', 'image', 'status', 'description', 'expire_date'];
+
+    public function questions() 
+    {
+        return $this->hasMany(SurveyQuestion::class);
+    }
 }

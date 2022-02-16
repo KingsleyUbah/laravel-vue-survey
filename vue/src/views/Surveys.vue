@@ -86,7 +86,7 @@
     }
   }
 
-  function getForPage(ev, ink) {
+  function getForPage(ev, link) {
     ev.preventDefault();
     
     if(!link.url || link.active) {

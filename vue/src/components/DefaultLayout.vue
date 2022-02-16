@@ -66,7 +66,6 @@
       </DisclosurePanel>
     </Disclosure>
     <router-view></router-view>
-
     <Notification />
   </div>
 </template>
