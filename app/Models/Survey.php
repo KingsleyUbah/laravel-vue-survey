@@ -16,7 +16,7 @@ class Survey extends Model
     const TYPE_RADIO = 'radio';
     const TYPE_CHECKBOX = 'checkbox';
 
-    protected $fillable = ['user_id', 'title', 'image', 'status', 'description', 'expire_date'];
+    protected $fillable = ['user_id', 'title', 'image', 'slug', 'status', 'description', 'expire_date'];
 
     public function questions() 
     {

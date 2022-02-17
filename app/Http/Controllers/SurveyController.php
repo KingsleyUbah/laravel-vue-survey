@@ -44,6 +44,8 @@ class SurveyController extends Controller
             $data['image'] = $relativePath;
         }
 
+        $data['slug'] = Str::slug($data['title']);
+
         $survey = Survey::create($data);
 
         foreach ($data['questions'] as $question) 
@@ -56,12 +58,7 @@ class SurveyController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Survey  $survey
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show(Survey $survey, Request $request)
     {
         $user = $request->user();
@@ -70,6 +67,12 @@ class SurveyController extends Controller
             return abort(403, 'Unauthorized action');
         }
 
+        return new SurveyResource($survey);
+    }
+
+    public function showForGuest(Survey $survey)
+    {
+        
         return new SurveyResource($survey);
     }
 

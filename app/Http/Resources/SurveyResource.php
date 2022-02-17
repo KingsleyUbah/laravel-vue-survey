@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
 use DateTime;
 
@@ -23,7 +22,7 @@ class SurveyResource extends JsonResource
             'id' => $this->id,
             'image_url' => $this->image ? URL::to($this->image) : null,
             'title' => $this->title,
-            'slug' => Str::slug($this->title, '-'),           
+            'slug' => $this->slug,           
             'status' => $this->status !== 'draft',
             'description' => $this->description,
             'created_at' => (new DateTime($this->created_at))->format('Y-m-d H:i:s'),
