@@ -9,7 +9,7 @@
             </div>
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
-                <router-link v-for="item in navigation" :key="item.name" active-class="bg-green-500 text-white" :to="item.to" :class="[this.$route.name === item.to.name ? ''  : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']">{{ item.name }}</router-link>
+                <router-link v-for="item in navigation" :key="item.name" active-class="bg-green-500 text-white" :to="item.to" :class="[this.$route.name === item.to.name ? ''  : 'text-gray-300 bg-gray-700 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']">{{ item.name }}</router-link>
               </div>
             </div>
           </div>
@@ -21,7 +21,7 @@
                 <div>
                   <MenuButton class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                     <span class="sr-only">Open user menu</span>
-                    <img class="h-8 w-8 rounded-full" :src="user.imageUrl" alt="" />
+                    <img class="h-8 w-8 rounded-full" src="https://res.cloudinary.com/ubahthebuilder/image/upload/v1644842876/profile_jlwqcp.png" alt="" />
                   </MenuButton>
                 </div>
                 <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
@@ -47,7 +47,7 @@
 
       <DisclosurePanel class="md:hidden">
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <router-link v-for="item in navigation" :key="item.name" active-class="bg-green-500 text-white" :to="item.to" :class="[this.$route.name === item.to.name ? '' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block px-3 py-2 rounded-md text-base font-medium']" >{{ item.name }}</router-link>
+          <router-link v-for="item in navigation" :key="item.name" active-class="bg-green-500 text-white" :to="item.to" :class="[this.$route.name === item.to.name ? '' : 'text-gray-300 bg-gray-700 hover:bg-gray-700 hover:text-white', 'block px-3 py-2 rounded-md text-base font-medium']" >{{ item.name }}</router-link>
         </div>
         <div class="pt-4 pb-3 border-t border-gray-700">
           <div class="flex items-center px-5">
