@@ -1,7 +1,9 @@
 <template>
     <PageComponent title="Dashboard"></PageComponent>
 
-    <div v-if="loading" class="flex justify-center">Loading...</div>
+    <div v-if="loading" class="flex justify-center h-screen">
+      <img src="ball.gif" alt="" class="h-1/3">
+    </div>
     <div
       v-else
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-gray-700 max-w-7xl mx-auto bg-gray-100"

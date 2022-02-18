@@ -27,8 +27,8 @@
             </div>
         </template>
 
-        <div v-if="surveyLoading" class="flex justify-center">
-            ...Loading
+        <div v-if="surveyLoading" class="flex justify-center h-screen">
+            Loading...
         </div>
         
         <form v-else action="" @submit.prevent="saveSurvey" class="animate-fade-in-down">
